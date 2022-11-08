@@ -18,10 +18,14 @@ export default function SpecificPage() {
     const randomNumber2 = Math.floor(Math.random() * 10);
 
     const response = await fetch(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       `${baseURI}/search/photos?orientation=landscape&page=${randomNumber}&query=${location.state.title}&client_id=${clientID}`
     );
     const data = await response.json();
     setImageUrls(data.results[randomNumber2].urls.regular);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
   }, [location.state.title]);
 
   useEffect(() => {
