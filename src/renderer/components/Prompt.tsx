@@ -4,25 +4,7 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Box, CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import random from '../images/random-image.jpg';
-import category from '../images/category.jpg';
-
-const promptUser = [
-  {
-    id: 1,
-    title: 'Random Image',
-    description:
-      'After every request, a random image will be displayed and can be picked from them as the wallpaper.',
-    image: random,
-  },
-  {
-    id: 2,
-    title: 'Categorized Images',
-    description:
-      'There will be a list of categories and you can pick one of them to get a wallpaper from that category.',
-    image: category,
-  },
-];
+import wallpaperType from 'renderer/data/wallpaperType';
 
 export default function PromptPage() {
   const navigate = useNavigate();
@@ -59,7 +41,7 @@ export default function PromptPage() {
           alignItems: 'center',
         }}
       >
-        {promptUser.map((item) => {
+        {wallpaperType.map((item) => {
           return (
             <Card sx={{ maxWidth: 345 }} key={item.id}>
               <CardActionArea onClick={() => handlePick(item.id)}>
