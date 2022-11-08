@@ -1,24 +1,28 @@
 import { Backdrop, Button, CircularProgress, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 
-export default function RandomPage() {
+export default function SpecificPage() {
   const baseURI = 'https://api.unsplash.com';
   const clientID = 'vvPLo5xBjrkwuMzR9NfpyIT1QVY-SwDZWuXxLwiWAhE';
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [imageUrls, setImageUrls] = useState<string>('');
   const [open, setOpen] = useState(false);
 
-  const fetchImage = async () => {
+  const fetchImage = useCallback(async () => {
+    const randomNumber = Math.floor(Math.random() * 5);
+    const randomNumber2 = Math.floor(Math.random() * 10);
+
     const response = await fetch(
-      `${baseURI}/photos/random?orientation=landscape&client_id=${clientID}`
+      `${baseURI}/search/photos?orientation=landscape&page=${randomNumber}&query=${location.state.title}&client_id=${clientID}`
     );
     const data = await response.json();
-    setImageUrls(data.urls.regular);
-  };
+    setImageUrls(data.results[randomNumber2].urls.regular);
+  }, [location.state.title]);
 
   useEffect(() => {
     if (imageUrls === '') {
@@ -27,13 +31,13 @@ export default function RandomPage() {
     } else {
       setOpen(false);
     }
-  }, [imageUrls]);
+  }, [imageUrls, fetchImage]);
 
   return (
     <Box>
       <IconButton
         onClick={() => {
-          navigate('/prompt');
+          navigate('/category');
         }}
       >
         <ArrowBackIcon sx={{ color: 'white' }} />
